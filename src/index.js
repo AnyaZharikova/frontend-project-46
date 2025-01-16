@@ -29,18 +29,21 @@ const genDiff = (file1, file2) => {
   const matched = ' ';
   const added = '+';
   const changed = '-';
-  const result = keys.map((key) => {
-    if (!Object.hasOwn(file2, key)) {
-      return `${indent}${changed} ${key}: ${file1[key]}`;
+
+  const getDiff = (key) => {
+    switch (true) {
+      case !Object.hasOwn(file2, key):
+        return `${indent}${changed} ${key}: ${file1[key]}`;
+      case !Object.hasOwn(file1, key):
+        return `${indent}${added} ${key}: ${file2[key]}`;
+      case file1[key] !== file2[key]:
+        return `${indent}${changed} ${key}: ${file1[key]}\n${indent}${added} ${key}: ${file2[key]}`;
+      default:
+        return `${indent}${matched} ${key}: ${file1[key]}`;
     }
-    if (!Object.hasOwn(file1, key)) {
-      return `${indent}${added} ${key}: ${file2[key]}`;
-    }
-    if (file1[key] !== file2[key]) {
-      return `${indent}${changed} ${key}: ${file1[key]}\n${indent}${added} ${key}: ${file2[key]}`;
-    }
-    return `${indent}${matched} ${key}: ${file1[key]}`;
-  });
+  };
+
+  const result = keys.map(getDiff);
 
   return `{\n${result.join('\n')}\n}`;
 };
