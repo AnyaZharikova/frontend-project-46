@@ -1,2 +1,4 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/AnyaZharikova/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/AnyaZharikova/frontend-project-46/actions)
+[![hexlet-check](https://github.com/AnyaZharikova/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/AnyaZharikova/frontend-project-46/actions/workflows/hexlet-check.yml)
+[![Maintainability](https://api.codeclimate.com/v1/badges/84e4abd728e90d26e72b/maintainability)](https://codeclimate.com/github/AnyaZharikova/frontend-project-46/maintainability)
