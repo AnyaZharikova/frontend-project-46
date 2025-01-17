@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { program } from 'commander';
-import { makeObject, genDiff } from '../src/index.js';
+import genDiff from '../src/index.js';
 
 program
   .name('gendiff')
@@ -12,7 +12,7 @@ program
   .argument('<filepath2>', 'path to the second file')
   .option('-f, --format [type]', 'output format')
   .action((filepath1, filepath2) => {
-    console.log(genDiff(makeObject(filepath1), makeObject(filepath2)));
+    console.log(genDiff(filepath1, filepath2));
   });
 
 program.parse();
