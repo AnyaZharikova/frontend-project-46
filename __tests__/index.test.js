@@ -27,4 +27,4 @@ describe('genDiff', () => {
 
     expect(actualResult).toEqual(expectedResult);
   });
-})
+});
