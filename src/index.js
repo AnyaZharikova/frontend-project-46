@@ -19,9 +19,9 @@ const genDiff = (file1, file2, format = 'stylish') => {
 
   const parsedFile1 = parse(dataOfFile1, extOfFile1);
   const parsedFile2 = parse(dataOfFile2, extOfFile2);
-  //console.log(parsedFile1, parsedFile2)
+
   const diffTree = makeComparisonTree(parsedFile1, parsedFile2);
-  //console.log(diffTree);
+
   return applyFormat(diffTree, format);
 };
 
