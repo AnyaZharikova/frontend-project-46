@@ -8,4 +8,7 @@
 [![asciicast](https://asciinema.org/a/8KUcC4BBsy5Vfr08t9AkbKblE.svg)](https://asciinema.org/a/8KUcC4BBsy5Vfr08t9AkbKblE)
 
 ### Comparing two YAML-files  
-[![asciicast](https://asciinema.org/a/MCyD4P4vvpgbhX64nt07kzUQ4.svg)](https://asciinema.org/a/MCyD4P4vvpgbhX64nt07kzUQ4)
+[![asciicast](https://asciinema.org/a/MCyD4P4vvpgbhX64nt07kzUQ4.svg)](https://asciinema.org/a/MCyD4P4vvpgbhX64nt07kzUQ4)  
+
+### Comparing two files with nested structure  
+<script src="https://asciinema.org/a/W3qPh9A2A8TTASapt99zvJqYx.js" id="asciicast-W3qPh9A2A8TTASapt99zvJqYx" async="true"></script>
