@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "type": "module",
   "version": "1.0.0",
-  "description": "second project",
+  "description": "App for finding differences between two files",
   "main": "src/index.js",
   "bin": {
     "gendiff": "bin/gendiff.js"
