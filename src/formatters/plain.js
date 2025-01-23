@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 const makePath = (node, prefix = '') => {
   const { type, key, children } = node;
   const path = prefix && !prefix.endsWith('.') ? `${prefix}.${key}` : `${prefix}${key}`;
@@ -12,46 +10,39 @@ const makePath = (node, prefix = '') => {
 };
 
 const getValue = (value) => {
-  if (value === null || typeof value === 'boolean') {
+  if (value == null || typeof value === 'boolean') {
     return value;
   }
-  if (!_.isObject(value)) {
+  if (typeof value !== 'object' || value === null) {
     return `'${value}'`;
   }
   return '[complex value]';
 };
 
 const makePlain = (diffTree, prefix = '') => {
+  if (diffTree.length === 0) {
+    return 'Empty files!';
+  }
+
   const cb = (lines, node) => {
     const {
       type, value, oldValue, newValue, children,
     } = node;
 
-    let line = '';
     switch (type) {
       case 'nested':
-        line = makePlain(children, `${prefix}${node.key}.`);
-        break;
+        return lines.concat(makePlain(children, `${prefix}${node.key}.`));
       case 'added':
-        line = `Property '${makePath(node, prefix)}' was added with value: ${getValue(value)}`;
-        break;
+        return lines.concat(`Property '${makePath(node, prefix)}' was added with value: ${getValue(value)}`);
       case 'deleted':
-        line = `Property '${makePath(node, prefix)}' was removed`;
-        break;
+        return lines.concat(`Property '${makePath(node, prefix)}' was removed`);
       case 'changed':
-        line = `Property '${makePath(node, prefix)}' was updated. From ${getValue(oldValue)} to ${getValue(newValue)}`;
-        break;
+        return lines.concat(`Property '${makePath(node, prefix)}' was updated. From ${getValue(oldValue)} to ${getValue(newValue)}`);
       case 'unchanged':
         return lines;
       default:
-        throw new Error(`Unsupported type: ${type}!`);
+        throw new Error(`Unsupported type: ${type}`);
     }
-
-    if (lines) {
-      lines.push(line);
-    }
-
-    return lines;
   };
 
   const result = diffTree.reduce(cb, []).join('\n');

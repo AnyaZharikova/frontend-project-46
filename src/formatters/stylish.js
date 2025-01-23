@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 const symbols = {
   replacer: ' ',
   added: '+ ',
@@ -13,12 +11,13 @@ const makeIndent = (depth, indentCount = 4, leftShift = 2) => symbols
 const makeBracketIndent = (depth, indentCount = 4) => symbols.replacer.repeat(depth * indentCount);
 
 const stringify = (value, depth = 1) => {
+  const indent = makeIndent(depth + 1);
   const bracketIndent = makeBracketIndent(depth);
 
-  if (_.isObject(value) && !Array.isArray(value)) {
+  if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
     const lines = Object
       .entries(value)
-      .map(([key, val]) => `${makeIndent(depth + 1)}${symbols.unchanged}${key}: ${stringify(val, depth + 1)}`);
+      .map(([key, val]) => `${indent}${symbols.unchanged}${key}: ${stringify(val, depth + 1)}`);
     return [
       '{',
       ...lines,
@@ -28,11 +27,15 @@ const stringify = (value, depth = 1) => {
   return `${value}`;
 };
 
-const makeStylish = (tree, depth = 1) => {
+const makeStylish = (diffTree, depth = 1) => {
+  if (diffTree.length === 0) {
+    return 'Empty files!';
+  }
+
   const indent = makeIndent(depth);
   const bracketIndent = makeBracketIndent(depth - 1);
 
-  const lines = tree.flatMap((node) => {
+  const lines = diffTree.flatMap((node) => {
     const {
       type, key, value, oldValue, newValue, children,
     } = node;
