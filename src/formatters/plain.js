@@ -10,7 +10,7 @@ const makePath = (node, prefix = '') => {
 };
 
 const getValue = (value) => {
-  if (value == null || typeof value === 'boolean') {
+  if (value == null || typeof value === 'boolean' || typeof value === 'number') {
     return value;
   }
   if (typeof value !== 'object' || value === null) {
