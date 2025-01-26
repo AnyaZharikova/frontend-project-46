@@ -9,38 +9,26 @@ const fixturesPath = path.join(__dirname, '..', '__fixtures__');
 
 const extensions = ['.json', '.yaml'];
 
-describe.each(extensions)('genDiff of extensions: %s', (extension) => {
-  test('output in stylish', () => {
-    const filepath1 = path.join(fixturesPath, `file1${extension}`);
-    const filepath2 = path.join(fixturesPath, `file2${extension}`);
-    const expectedResultPath = path.join(fixturesPath, 'result_stylish.txt');
-    const expectedResult = fs.readFileSync(expectedResultPath, 'utf-8').trim();
-    const actualResult = genDiff(filepath1, filepath2, 'stylish');
+const runTest = (extension, format, fileResult) => {
+  const filepath1 = path.join(fixturesPath, `file1${extension}`);
+  const filepath2 = path.join(fixturesPath, `file2${extension}`);
+  const expectedResultPath = path.join(fixturesPath, fileResult);
+  const expectedResult = fs.readFileSync(expectedResultPath, 'utf-8').trim();
+  const actualResult = genDiff(filepath1, filepath2, format);
 
-    expect(actualResult).toEqual(expectedResult);
+  expect(actualResult).toEqual(expectedResult);
+};
+
+extensions.forEach((extension) => {
+  test(`output in stylish for ${extension}`, () => {
+    runTest(extension, 'stylish', 'result_stylish.txt');
   });
-});
 
-describe.each(extensions)('genDiff of extensions: %s', (extension) => {
-  test('output in plain', () => {
-    const filepath1 = path.join(fixturesPath, `file1${extension}`);
-    const filepath2 = path.join(fixturesPath, `file2${extension}`);
-    const expectedResultPath = path.join(fixturesPath, 'result_plain.txt');
-    const expectedResult = fs.readFileSync(expectedResultPath, 'utf-8').trim();
-    const actualResult = genDiff(filepath1, filepath2, 'plain');
-
-    expect(actualResult).toEqual(expectedResult);
+  test(`output in plain for ${extension}`, () => {
+    runTest(extension, 'plain', 'result_plain.txt');
   });
-});
 
-describe.each(extensions)('genDiff of extensions: %s', (extension) => {
-  test('output in json', () => {
-    const filepath1 = path.join(fixturesPath, `file1${extension}`);
-    const filepath2 = path.join(fixturesPath, `file2${extension}`);
-    const expectedResultPath = path.join(fixturesPath, 'result_json.txt');
-    const expectedResult = fs.readFileSync(expectedResultPath, 'utf-8').trim();
-    const actualResult = genDiff(filepath1, filepath2, 'json');
-
-    expect(actualResult).toEqual(expectedResult);
+  test(`output in json for ${extension}`, () => {
+    runTest(extension, 'json', 'result_json.txt');
   });
 });
