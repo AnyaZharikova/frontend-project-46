@@ -27,13 +27,8 @@ const switchFormat = (format) => {
 };
 
 describe.each(formats)('genDiff for JSON', (format) => {
-  let filepath1;
-  let filepath2;
-
-  beforeEach(() => {
-    filepath1 = path.join(fixturesPath, 'file1.json');
-    filepath2 = path.join(fixturesPath, 'file2.json');
-  });
+  const filepath1 = path.join(fixturesPath, 'file1.json');
+  const filepath2 = path.join(fixturesPath, 'file2.json');
 
   test(`output in ${format}`, () => {
     const expectedResult = switchFormat(format);
@@ -44,13 +39,8 @@ describe.each(formats)('genDiff for JSON', (format) => {
 });
 
 describe.each(formats)('genDiff for YML', (format) => {
-  let filepath1;
-  let filepath2;
-
-  beforeEach(() => {
-    filepath1 = path.join(fixturesPath, 'file1.yaml');
-    filepath2 = path.join(fixturesPath, 'file2.yaml');
-  });
+  const filepath1 = path.join(fixturesPath, 'file1.yaml');
+  const filepath2 = path.join(fixturesPath, 'file2.yaml');
 
   test(`output in ${format}`, () => {
     const expectedResult = switchFormat(format);
