@@ -1,34 +1,61 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import genDiff from '../src/index.js';
+import genDiff from '../index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const fixturesPath = path.join(__dirname, '..', '__fixtures__');
 
-const extensions = ['.json', '.yaml'];
+const formats = ['stylish', 'plain', 'json'];
 
-const runTest = (extension, format, fileResult) => {
-  const filepath1 = path.join(fixturesPath, `file1${extension}`);
-  const filepath2 = path.join(fixturesPath, `file2${extension}`);
-  const expectedResultPath = path.join(fixturesPath, fileResult);
+const switchFormat = (format) => {
+  const resultFiles = {
+    stylish: 'result_stylish.txt',
+    plain: 'result_plain.txt',
+    json: 'result_json.txt',
+  };
+
+  if (!Object.hasOwn(resultFiles, format)) {
+    throw new Error(`Unknown format: ${format}`);
+  }
+
+  const expectedResultPath = path.join(fixturesPath, resultFiles[format]);
   const expectedResult = fs.readFileSync(expectedResultPath, 'utf-8').trim();
-  const actualResult = genDiff(filepath1, filepath2, format);
 
-  expect(actualResult).toEqual(expectedResult);
+  return expectedResult;
 };
 
-extensions.forEach((extension) => {
-  test(`output in stylish for ${extension}`, () => {
-    runTest(extension, 'stylish', 'result_stylish.txt');
+describe.each(formats)('genDiff for JSON', (format) => {
+  let filepath1;
+  let filepath2;
+
+  beforeEach(() => {
+    filepath1 = path.join(fixturesPath, 'file1.json');
+    filepath2 = path.join(fixturesPath, 'file2.json');
   });
 
-  test(`output in plain for ${extension}`, () => {
-    runTest(extension, 'plain', 'result_plain.txt');
+  test(`output in ${format}`, () => {
+    const expectedResult = switchFormat(format);
+    const actualResult = genDiff(filepath1, filepath2, format);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+});
+
+describe.each(formats)('genDiff for YML', (format) => {
+  let filepath1;
+  let filepath2;
+
+  beforeEach(() => {
+    filepath1 = path.join(fixturesPath, 'file1.yaml');
+    filepath2 = path.join(fixturesPath, 'file2.yaml');
   });
 
-  test(`output in json for ${extension}`, () => {
-    runTest(extension, 'json', 'result_json.txt');
+  test(`output in ${format}`, () => {
+    const expectedResult = switchFormat(format);
+    const actualResult = genDiff(filepath1, filepath2, format);
+
+    expect(actualResult).toEqual(expectedResult);
   });
 });
